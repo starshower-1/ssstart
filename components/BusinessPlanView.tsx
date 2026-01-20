@@ -19,7 +19,7 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
           <div className="h-4 bg-slate-200 rounded w-3/4 mx-auto"></div>
           <div className="h-64 bg-slate-100 rounded"></div>
         </div>
-        <p className="text-slate-500 mt-6 font-medium">대용량 데이터를 구성하고 있습니다. 약 1분 정도 소요될 수 있습니다...</p>
+        <p className="text-slate-500 mt-6 font-medium font-['Noto_Sans_KR']">대용량 데이터를 구성하고 있습니다. 약 1분 정도 소요될 수 있습니다...</p>
       </div>
     );
   }
@@ -27,9 +27,9 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
   const { summary, problem, solution, scaleUp, team } = data;
 
   return (
-    <div id="plan-container" className="bg-white max-w-[210mm] mx-auto p-[15mm] sm:p-[20mm] shadow-2xl mb-10 leading-relaxed text-slate-800 rounded-sm">
+    <div id="plan-container" className="bg-white max-w-[210mm] mx-auto p-[15mm] sm:p-[20mm] shadow-2xl mb-10 leading-relaxed text-slate-800 rounded-sm font-['Noto_Sans_KR']">
       <div className="border-b-4 border-slate-800 pb-4 mb-10 text-center">
-        <h1 className="text-2xl sm:text-3xl font-extrabold mb-2 uppercase tracking-tight">초기창업패키지 사업계획서 (심층 리서치 버전)</h1>
+        <h1 className="text-2xl sm:text-3xl font-extrabold mb-2 uppercase tracking-tight">초기창업패키지 사업계획서 (심층 고도화 버전)</h1>
         <p className="text-base sm:text-lg text-slate-600 font-bold italic">SS창업경영연구소 & (주)소셜위즈 Partnership</p>
       </div>
 
@@ -39,37 +39,55 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
         <div className="space-y-6">
           <div>
             <h3 className="text-lg font-bold mb-2">1.1 사업화 과제 소개</h3>
-            <div className="whitespace-pre-wrap text-sm border p-4 bg-slate-50/50 rounded shadow-sm text-justify">{summary.introduction || '내용 없음'}</div>
+            <div className="whitespace-pre-wrap text-sm border p-4 bg-slate-50/50 rounded shadow-sm text-justify leading-7">{summary.introduction || '내용 없음'}</div>
           </div>
           <div>
             <h3 className="text-lg font-bold mb-2">1.2 사업화 과제 차별성</h3>
-            <div className="whitespace-pre-wrap text-sm border p-4 bg-slate-50/50 rounded shadow-sm text-justify">{summary.differentiation || '내용 없음'}</div>
+            <div className="whitespace-pre-wrap text-sm border p-4 bg-slate-50/50 rounded shadow-sm text-justify leading-7">{summary.differentiation || '내용 없음'}</div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h3 className="text-lg font-bold mb-2">1.3 목표 시장</h3>
-              <div className="whitespace-pre-wrap text-sm border p-4 bg-slate-50/50 rounded h-full shadow-sm text-justify">{summary.targetMarket || '내용 없음'}</div>
+              <div className="whitespace-pre-wrap text-sm border p-4 bg-slate-50/50 rounded h-full shadow-sm text-justify leading-7">{summary.targetMarket || '내용 없음'}</div>
             </div>
             <div>
               <h3 className="text-lg font-bold mb-2">1.4 달성 목표</h3>
-              <div className="whitespace-pre-wrap text-sm border p-4 bg-slate-50/50 rounded h-full shadow-sm text-justify">{summary.goals || '내용 없음'}</div>
+              <div className="whitespace-pre-wrap text-sm border p-4 bg-slate-50/50 rounded h-full shadow-sm text-justify leading-7">{summary.goals || '내용 없음'}</div>
             </div>
           </div>
           <div className="mt-8">
-            <h3 className="text-lg font-bold mb-4">1.5 핵심 비주얼 (첨부파일 기반 AI 생성)</h3>
+            <h3 className="text-lg font-bold mb-4">1.5 핵심 비주얼 (기본 구상 및 활용 예시)</h3>
             <div className="grid grid-cols-2 gap-4">
-              {images && images.length > 0 ? images.slice(0, 4).map((img, idx) => (
-                <div key={idx} className="space-y-2">
-                  <div className="overflow-hidden rounded-lg shadow-md border border-slate-200 h-40 sm:h-48">
-                    <img src={img} alt={`Visual ${idx}`} className="object-cover w-full h-full hover:scale-105 transition-transform duration-300" />
+              {images && images.length >= 4 ? (
+                <>
+                  <div className="space-y-2">
+                    <div className="overflow-hidden rounded-lg shadow-md border border-slate-200 h-40 sm:h-48">
+                      <img src={images[0]} alt="기본 구상도 1" className="object-cover w-full h-full" />
+                    </div>
+                    <p className="text-[10px] text-slate-500 text-center font-bold tracking-wider uppercase">기본 구상도 #1</p>
                   </div>
-                  <p className="text-[10px] text-slate-500 text-center font-bold tracking-wider uppercase">
-                    {idx < 2 ? '기본구상도' : '활용예상도'} #{idx % 2 + 1}
-                  </p>
-                </div>
-              )) : (
-                <div className="col-span-2 border-2 border-dashed border-slate-200 rounded-lg h-40 flex flex-col items-center justify-center text-slate-400">
-                  <p className="text-xs italic">이미지를 생성하지 못했습니다.</p>
+                  <div className="space-y-2">
+                    <div className="overflow-hidden rounded-lg shadow-md border border-slate-200 h-40 sm:h-48">
+                      <img src={images[1]} alt="기본 구상도 2" className="object-cover w-full h-full" />
+                    </div>
+                    <p className="text-[10px] text-slate-500 text-center font-bold tracking-wider uppercase">기본 구상도 #2</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="overflow-hidden rounded-lg shadow-md border border-slate-200 h-40 sm:h-48">
+                      <img src={images[2]} alt="활용의 예 1" className="object-cover w-full h-full" />
+                    </div>
+                    <p className="text-[10px] text-slate-500 text-center font-bold tracking-wider uppercase">활용의 예 #1</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="overflow-hidden rounded-lg shadow-md border border-slate-200 h-40 sm:h-48">
+                      <img src={images[3]} alt="활용의 예 2" className="object-cover w-full h-full" />
+                    </div>
+                    <p className="text-[10px] text-slate-500 text-center font-bold tracking-wider uppercase">활용의 예 #2</p>
+                  </div>
+                </>
+              ) : (
+                <div className="col-span-2 border-2 border-dashed border-slate-200 rounded-lg h-40 flex items-center justify-center text-slate-400">
+                  <p className="text-xs italic">이미지를 생성 중이거나 부족합니다.</p>
                 </div>
               )}
             </div>
@@ -82,12 +100,27 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
         <h2 className="text-xl sm:text-2xl font-bold text-slate-900 border-l-8 border-blue-600 pl-4 mb-6 bg-slate-50 py-2">2. 문제인식(Problem)</h2>
         <div className="space-y-8">
           <div>
-            <h3 className="text-lg font-bold mb-3">2.1 제품 서비스 개발 동기 (PTSTI 딥 리서치 및 첨부파일 정밀 분석)</h3>
-            <div className="whitespace-pre-wrap text-sm leading-7 text-justify border-b pb-6 text-slate-700">{problem.motivation || '데이터 생성 오류'}</div>
+            <h3 className="text-lg font-bold mb-4">2.1 제품 서비스 개발 동기 (내적 및 외적 요인 분석)</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-blue-50/30 p-6 rounded-xl border border-blue-100">
+                <h4 className="font-extrabold text-blue-700 mb-3 flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+                  창업자의 내적 동기 및 철학
+                </h4>
+                <div className="whitespace-pre-wrap text-sm leading-7 text-justify text-slate-700">{problem.internalMotivation || '데이터 생성 중'}</div>
+              </div>
+              <div className="bg-green-50/30 p-6 rounded-xl border border-green-100">
+                <h4 className="font-extrabold text-green-700 mb-3 flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+                  시장 및 사회적 외적 환경 요인
+                </h4>
+                <div className="whitespace-pre-wrap text-sm leading-7 text-justify text-slate-700">{problem.externalMotivation || '데이터 생성 중'}</div>
+              </div>
+            </div>
           </div>
           <div>
-            <h3 className="text-lg font-bold mb-3">2.2 제품 및 서비스의 목적 및 필요성 (사회/경제적 파급효과 포함)</h3>
-            <div className="whitespace-pre-wrap text-sm leading-7 text-justify border-b pb-6 text-slate-700">{problem.purpose || '데이터 생성 오류'}</div>
+            <h3 className="text-lg font-bold mb-3">2.2 제품 및 서비스의 목적 및 필요성</h3>
+            <div className="whitespace-pre-wrap text-sm leading-7 text-justify border p-6 rounded-xl bg-slate-50 shadow-inner text-slate-700">{problem.purpose || '데이터 생성 오류'}</div>
           </div>
         </div>
       </section>
@@ -97,11 +130,26 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
         <h2 className="text-xl sm:text-2xl font-bold text-slate-900 border-l-8 border-blue-600 pl-4 mb-6 bg-slate-50 py-2">3. 실현가능성(Solution)</h2>
         <div className="space-y-8">
           <div>
-            <h3 className="text-lg font-bold mb-3">3.1 제품 서비스의 상세 개발 및 구현 방안</h3>
-            <div className="whitespace-pre-wrap text-sm mb-6 leading-7 text-justify text-slate-700 border-b pb-6">{solution.devPlan || '내용 없음'}</div>
+            <h3 className="text-lg font-bold mb-3">3.1 제품 서비스 상세 개발 현황 및 미래 비전</h3>
+            <div className="whitespace-pre-wrap text-sm mb-6 leading-8 text-justify text-slate-700 border-b pb-8">{solution.devStatusDetailed || '내용 없음'}</div>
             
-            <h4 className="font-bold mb-3 text-blue-700 text-base">3.1.1 연차별/단계별 개발 로드맵 및 협력 네트워크</h4>
-            <div className="whitespace-pre-wrap text-sm mb-6 leading-7 text-justify text-slate-700 border-b pb-6">{solution.stepwisePlan || '내용 없음'}</div>
+            <div className="my-10">
+              <h4 className="font-extrabold mb-4 text-blue-800 text-center text-base">사업화 과제의 최종 지향점 및 미래상 (Future Vision)</h4>
+              {images && images[4] ? (
+                <div className="relative overflow-hidden rounded-2xl shadow-2xl border-4 border-slate-100 h-64 sm:h-80 mb-6 group">
+                  <img src={images[4]} alt="Future Vision" className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] opacity-80 mb-1">Scale-up Vision</p>
+                    <p className="text-xl font-black">글로벌 초격차 기술 생태계 완성</p>
+                  </div>
+                </div>
+              ) : null}
+              <div className="whitespace-pre-wrap text-sm leading-8 text-justify text-slate-600 italic bg-slate-50 p-6 rounded-xl border-l-4 border-slate-300">{solution.futureGoals || '내용 없음'}</div>
+            </div>
+            
+            <h4 className="font-bold mb-3 text-blue-700 text-base">3.1.1 연차별/단계별 순차적 로드맵 (확장 버전)</h4>
+            <div className="whitespace-pre-wrap text-sm mb-6 leading-8 text-justify text-slate-700 border-b pb-8">{solution.stepwisePlan || '내용 없음'}</div>
             
             <h4 className="font-bold mb-3 text-blue-700 text-base">3.1.2 금년도 추진 상세 계획 및 예산 집행 세부 전략</h4>
             <div className="overflow-x-auto shadow-sm rounded-lg border border-slate-200 mb-6">
@@ -128,9 +176,9 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
 
           <div>
             <h3 className="text-lg font-bold mb-3">3.2 고객 요구사항 분석 및 글로벌 경쟁 우위 확보 방안</h3>
-            <div className="whitespace-pre-wrap text-sm mb-6 leading-7 text-justify text-slate-700 border-b pb-6">{solution.customerResponse || '내용 없음'}</div>
+            <div className="whitespace-pre-wrap text-sm mb-6 leading-8 text-justify text-slate-700 border-b pb-8">{solution.customerResponse || '내용 없음'}</div>
             <h4 className="font-bold mb-3 text-blue-700 text-base">초격차 경쟁사 분석 및 비교 우위 전략</h4>
-            <div className="whitespace-pre-wrap text-sm leading-7 text-justify text-slate-700">{solution.competitorAnalysis || '내용 없음'}</div>
+            <div className="whitespace-pre-wrap text-sm leading-8 text-justify text-slate-700">{solution.competitorAnalysis || '내용 없음'}</div>
           </div>
         </div>
       </section>
@@ -141,7 +189,7 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
         <div className="space-y-8">
           <div>
             <h3 className="text-lg font-bold mb-3">4.1 자금 소요 분석 및 후속 투자 유치 계획</h3>
-            <div className="whitespace-pre-wrap text-sm mb-6 leading-7 text-justify text-slate-700 border-b pb-6">{scaleUp.fundingPlan || '내용 없음'}</div>
+            <div className="whitespace-pre-wrap text-sm mb-6 leading-8 text-justify text-slate-700 border-b pb-8">{scaleUp.fundingPlan || '내용 없음'}</div>
             <div className="overflow-x-auto shadow-sm rounded-lg border border-slate-200">
               <table className="w-full border-collapse text-xs">
                 <thead>
@@ -160,8 +208,8 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
                     </tr>
                   ))}
                   <tr className="bg-blue-50/50 font-extrabold border-t border-blue-200">
-                    <td colSpan={2} className="p-3 text-center text-slate-800">사업비 총계 (정부지원금 + 민간대응자금)</td>
-                    <td className="p-3 text-right text-blue-800 text-sm">
+                    <td colSpan={2} className="p-3 text-center text-slate-800 font-bold">사업비 총계 (정부지원금 + 민간대응자금)</td>
+                    <td className="p-3 text-right text-blue-800 text-sm font-black">
                       {(scaleUp.detailedBudget || []).reduce((sum: number, b: any) => sum + (b.amount || 0), 0).toLocaleString()}
                     </td>
                   </tr>
@@ -212,14 +260,14 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
                   <span className="w-2.5 h-2.5 bg-blue-500 rounded-full mr-2"></span>
                   국내 거점 확보 및 시장 안착 전략
                 </h4>
-                <div className="whitespace-pre-wrap text-xs leading-7 text-slate-600 text-justify">{scaleUp.marketApproachDomestic || '내용 없음'}</div>
+                <div className="whitespace-pre-wrap text-xs leading-8 text-slate-600 text-justify">{scaleUp.marketApproachDomestic || '내용 없음'}</div>
               </div>
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <h4 className="font-extrabold mb-3 text-slate-800 flex items-center border-b pb-2">
                   <span className="w-2.5 h-2.5 bg-green-500 rounded-full mr-2"></span>
                   글로벌 GTM(Go-To-Market) 추진 전략
                 </h4>
-                <div className="whitespace-pre-wrap text-xs leading-7 text-slate-600 text-justify">{scaleUp.marketApproachGlobal || '내용 없음'}</div>
+                <div className="whitespace-pre-wrap text-xs leading-8 text-slate-600 text-justify">{scaleUp.marketApproachGlobal || '내용 없음'}</div>
               </div>
             </div>
           </div>
@@ -231,17 +279,17 @@ const BusinessPlanView: React.FC<Props> = ({ data, images }) => {
         <h2 className="text-xl sm:text-2xl font-bold text-slate-900 border-l-8 border-blue-600 pl-4 mb-6 bg-slate-50 py-2">5. 팀구성(Team)</h2>
         <div className="space-y-8">
           <div>
-            <h3 className="text-lg font-bold mb-3">5.1 대표자 및 핵심 인력 역량 (전문성 및 사업화 의지)</h3>
-            <div className="whitespace-pre-wrap text-sm leading-7 text-justify border p-6 rounded-xl bg-slate-50/20 shadow-inner text-slate-700">{team.capability || '내용 없음'}</div>
+            <h3 className="text-lg font-bold mb-3">5.1 대표자 및 핵심 인력 역량</h3>
+            <div className="whitespace-pre-wrap text-sm leading-8 text-justify border p-8 rounded-xl bg-slate-50/20 shadow-inner text-slate-700">{team.capability || '내용 없음'}</div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
             <div>
-              <h3 className="text-lg font-bold mb-3">5.2 현직 인력 현황 및 향후 고용 로드맵</h3>
-              <div className="whitespace-pre-wrap text-sm leading-7 text-justify border p-6 rounded-xl bg-slate-50/20 shadow-inner text-slate-700">{team.hiringStatus || '내용 없음'}</div>
+              <h3 className="text-lg font-bold mb-3">5.2 현직 인력 현황 및 고용 로드맵</h3>
+              <div className="whitespace-pre-wrap text-sm leading-8 text-justify border p-6 rounded-xl bg-slate-50/20 shadow-inner text-slate-700">{team.hiringStatus || '내용 없음'}</div>
             </div>
             <div>
               <h3 className="text-lg font-bold mb-3">5.3 사회적 가치 실현 및 ESG 경영 추진 방안</h3>
-              <div className="whitespace-pre-wrap text-sm leading-7 text-justify border p-6 rounded-xl bg-slate-50/20 shadow-inner text-slate-700">{team.socialValue || '내용 없음'}</div>
+              <div className="whitespace-pre-wrap text-sm leading-8 text-justify border p-6 rounded-xl bg-slate-50/20 shadow-inner text-slate-700">{team.socialValue || '내용 없음'}</div>
             </div>
           </div>
         </div>

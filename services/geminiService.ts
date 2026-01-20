@@ -6,7 +6,6 @@ import { CompanyInfo, BusinessPlanData } from "../types";
  * 사업계획서 생성 함수
  */
 export async function generateBusinessPlan(info: CompanyInfo, userKey?: string): Promise<BusinessPlanData> {
-  // 1. 사용자 입력 키 -> 2. 환경 변수 -> 3. 오류
   const apiKey = userKey || process.env.API_KEY;
   if (!apiKey || apiKey === "undefined" || apiKey.trim() === "") {
     throw new Error("API 키가 설정되지 않았습니다. 상단 설정 버튼을 통해 키를 입력해 주세요.");
@@ -15,21 +14,28 @@ export async function generateBusinessPlan(info: CompanyInfo, userKey?: string):
   const ai = new GoogleGenAI({ apiKey: apiKey });
   
   const systemInstruction = `
-    당신은 한국의 정부지원사업(특히 초기창업패키지) 전문 컨설턴트이자 수석 심사위원입니다.
-    사용자가 제공한 기업 정보와 첨부파일을 정밀 분석하여 압도적인 전문성과 분량을 가진 PSST 사업계획서를 작성하세요.
-    섹션별로 매우 구체적인 수치와 전문 프레임워크를 활용해야 합니다.
+    당신은 대한민국 중소벤처기업부 산하 '초기창업패키지'의 수석 컨설턴트입니다. 
+    사용자의 짧은 입력값으로부터 최소 20페이지 분량의 가치를 지닌 전문 사업계획서를 추출해야 합니다.
+
+    [작성 대원칙]
+    1. 분량 대폭 확대: 모든 서술형 답변은 기존 AI 응답의 3배 이상으로 작성하십시오. 
+    2. 전문성: 경영학적 용어, 산업 통계, 기술적 메커니즘을 상세히 서술하십시오.
+    3. 논리 구조:
+       - 문제인식 2.1: '창업자의 내적 동기(철학, 경험)'와 '시장/사회적 외적 동기(환경 변화, 페인포인트)'를 각각 500자 이상 전문적으로 서술할 것.
+       - 문제인식 2.2: 제품의 존재 이유와 국가적/사회적 필요성을 500자 내외로 서술할 것.
+       - 실현가능성 3.1: 현재의 구체적 개발 공정율과 기술적 난제 해결 과정을 매우 상세히 적고, 미래의 확장된 서비스 모습을 구체적으로 묘사할 것.
+       - 로드맵: 단기/중기/장기로 나누어 순차적으로 작성하며, 각 단계별 KPI와 마일스톤을 3배 이상 상세히 서술할 것.
+    4. 톤앤매너: 공신력 있는 보고서 형태의 개조식과 서술식을 혼용하십시오.
   `;
 
   const userPrompt = `
-    [기업 정보]
-    - 기업명: ${info.companyName}
-    - 사업아이템: ${info.businessItem}
-    - 현 개발상황: ${info.devStatus}
-    - 주요 타켓: ${info.targetAudience}
-    - 팀 전문성: ${info.teamInfo}
-    - 추가 정보: ${info.additionalInfo}
-
-    '초기창업패키지' 표준 규격에 따른 대용량 사업계획서를 JSON 형태로 응답하세요.
+    다음 정보를 바탕으로 정부지원사업용 초대형 사업계획서를 작성하십시오.
+    기업명: ${info.companyName}
+    아이템: ${info.businessItem}
+    개발현황: ${info.devStatus}
+    타겟: ${info.targetAudience}
+    팀역량: ${info.teamInfo}
+    비고: ${info.additionalInfo}
   `;
 
   const attachmentParts = (info.attachments || []).map(att => ({
@@ -64,16 +70,18 @@ export async function generateBusinessPlan(info: CompanyInfo, userKey?: string):
             problem: {
               type: Type.OBJECT,
               properties: {
-                motivation: { type: Type.STRING },
-                purpose: { type: Type.STRING },
+                internalMotivation: { type: Type.STRING, description: "창업자의 내적 동기 및 철학 (500자 이상)" },
+                externalMotivation: { type: Type.STRING, description: "시장 및 환경적 외적 동기 (500자 이상)" },
+                purpose: { type: Type.STRING, description: "목적 및 필요성 (500자 내외)" },
               },
-              required: ["motivation", "purpose"]
+              required: ["internalMotivation", "externalMotivation", "purpose"]
             },
             solution: {
               type: Type.OBJECT,
               properties: {
-                devPlan: { type: Type.STRING },
-                stepwisePlan: { type: Type.STRING },
+                devStatusDetailed: { type: Type.STRING, description: "상세 개발 현황 및 목표" },
+                futureGoals: { type: Type.STRING, description: "비전 및 미래상" },
+                stepwisePlan: { type: Type.STRING, description: "3배 이상 확장된 순차적 로드맵" },
                 budgetTable: {
                   type: Type.ARRAY,
                   items: {
@@ -88,7 +96,7 @@ export async function generateBusinessPlan(info: CompanyInfo, userKey?: string):
                 customerResponse: { type: Type.STRING },
                 competitorAnalysis: { type: Type.STRING },
               },
-              required: ["devPlan", "stepwisePlan", "budgetTable", "customerResponse", "competitorAnalysis"]
+              required: ["devStatusDetailed", "futureGoals", "stepwisePlan", "budgetTable", "customerResponse", "competitorAnalysis"]
             },
             scaleUp: {
               type: Type.OBJECT,
@@ -160,9 +168,15 @@ export async function generateImages(info: CompanyInfo, userKey?: string): Promi
   const ai = new GoogleGenAI({ apiKey: apiKey });
   const images: string[] = [];
   
+  // 1. 기본 구상도 (Concept) 2컷
+  // 2. 활용의 예 (Usage) 2컷
+  // 3. 미래 비전 (Future Vision) 1컷
   const prompts = [
-    `Hyper-realistic 3D isometric rendering of ${info.businessItem} product design, futuristic aesthetic, cinematic studio lighting, 8K.`,
-    `A realistic professional photo of a business team in a modern office working on ${info.businessItem}.`
+    `Product design blueprint for ${info.businessItem}, minimalist aesthetic, technical drawing style, white background, high resolution.`,
+    `Isometric 3D model of ${info.businessItem} main feature, clean studio lighting, soft shadows, futuristic look.`,
+    `A high-quality lifestyle photo showing people using ${info.businessItem} in a real-world ${info.targetAudience} environment.`,
+    `Professional close-up of ${info.businessItem} interface or physical hardware in action, cinematic focus.`,
+    `Panoramic future city view or advanced ecosystem integrated with ${info.businessItem}, massive scale, utopian vision, golden hour lighting.`
   ];
 
   for (const p of prompts) {

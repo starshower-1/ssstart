@@ -27,12 +27,14 @@ export interface BusinessPlanData {
     goals: string;
   };
   problem: {
-    motivation: string;
-    purpose: string;
+    internalMotivation: string; // 내적 동기 (500자 이상)
+    externalMotivation: string; // 외적 동기 (500자 이상)
+    purpose: string;            // 목적 및 필요성 (500자 내외)
   };
   solution: {
-    devPlan: string;
-    stepwisePlan: string;
+    devStatusDetailed: string;  // 제품 서비스 상세 개발 현황
+    futureGoals: string;        // 향후 목표 및 미래상
+    stepwisePlan: string;       // 3배 이상 늘어난 순차적 로드맵
     budgetTable: Array<{ item: string; period: string; content: string }>;
     customerResponse: string;
     competitorAnalysis: string;
@@ -43,18 +45,13 @@ export interface BusinessPlanData {
     policyFundPlan: string;
     detailedBudget: Array<{ category: string; basis: string; amount: number }>;
     marketResearchDomestic: MarketData[];
-    marketResearchDomesticText: string;
     marketApproachDomestic: string;
-    marketPerformanceDomestic: string;
     marketResearchGlobal: MarketData[];
-    marketResearchGlobalText: string;
     marketApproachGlobal: string;
-    marketPerformanceGlobal: string;
   };
   team: {
     capability: string;
     hiringStatus: string;
-    futureHiring: string;
     socialValue: string;
   };
 }
